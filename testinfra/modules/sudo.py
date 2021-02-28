@@ -32,14 +32,14 @@ class Sudo(InstanceModule):
 
     """
     @contextlib.contextmanager
-    def __call__(self, user=None):
+    def __call__(self, user=None, password=None):
         old_get_command = self._host.backend.get_command
         quote = self._host.backend.quote
         get_sudo_command = self._host.backend.get_sudo_command
 
         def get_command(command, *args):
             return old_get_command(
-                get_sudo_command(quote(command, *args), user))
+                get_sudo_command(quote(command, *args), user, password))
 
         self._host.backend.get_command = get_command
         try:

@@ -76,6 +76,14 @@ def pytest_addoption(parser):
         dest="sudo_user",
         help="sudo user",
     )
+
+    group.addoption(
+        "--sudo-pass",
+        action="store",
+        dest="sudo_pass",
+        help="sudo password",
+    )
+
     group.addoption(
         "--ansible-inventory",
         action="store",
@@ -113,6 +121,7 @@ def pytest_generate_tests(metafunc):
             ssh_identity_file=metafunc.config.option.ssh_identity_file,
             sudo=metafunc.config.option.sudo,
             sudo_user=metafunc.config.option.sudo_user,
+            sudo_pass=metafunc.config.option.sudo_pass,
             ansible_inventory=metafunc.config.option.ansible_inventory,
             force_ansible=metafunc.config.option.force_ansible,
         )

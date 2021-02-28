@@ -107,12 +107,13 @@ class BaseBackend:
     HAS_RUN_SALT = False
     HAS_RUN_ANSIBLE = False
 
-    def __init__(self, hostname, sudo=False, sudo_user=None, *args, **kwargs):
+    def __init__(self, hostname, sudo=False, sudo_user=None, sudo_pass=None, *args, **kwargs):
         self._encoding = None
         self._host = None
         self.hostname = hostname
         self.sudo = sudo
         self.sudo_user = sudo_user
+        self.sudo_pass = sudo_pass
         super().__init__()
 
     def set_host(self, host):
@@ -171,16 +172,27 @@ class BaseBackend:
             return command % tuple(shlex.quote(a) for a in args)
         return command
 
-    def get_sudo_command(self, command, sudo_user):
-        if sudo_user is None:
-            return self.quote("sudo /bin/sh -c %s", command)
-        return self.quote(
-            "sudo -u %s /bin/sh -c %s", sudo_user, command)
+    def get_sudo_command(self, command, sudo_user, sudo_pass):
+        sudo_command = "sudo"
+        sudo_args = []
+
+        if sudo_pass is not None:
+            sudo_command = "echo %s | sudo -S"
+            sudo_args.append(sudo_pass)
+
+        if sudo_user is not None:
+            sudo_command += " -u %s"
+            sudo_args.append(sudo_user)
+
+        sudo_command += " /bin/sh -c %s"
+        sudo_args.append(command)
+
+        return self.quote(sudo_command, *sudo_args)
 
     def get_command(self, command, *args):
         command = self.quote(command, *args)
         if self.sudo:
-            command = self.get_sudo_command(command, self.sudo_user)
+            command = self.get_sudo_command(command, self.sudo_user, self.sudo_pass)
         return command
 
     def run(self, command, *args, **kwargs):

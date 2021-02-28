@@ -50,7 +50,7 @@ def parse_hostspec(hostspec):
         for key in ('sudo', 'ssl', 'no_ssl', 'no_verify_ssl', 'force_ansible'):
             if query.get(key, ['false'])[0].lower() == 'true':
                 kw[key] = True
-        for key in ("sudo_user", 'namespace', 'container', 'read_timeout_sec',
+        for key in ("sudo_user", "sudo_pass", 'namespace', 'container', 'read_timeout_sec',
                     'operation_timeout_sec', 'timeout', 'controlpersist',
                     'kubeconfig', 'context'):
             if key in query:
