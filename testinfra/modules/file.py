@@ -177,6 +177,12 @@ class File(Module):
     def __repr__(self):
         return "<file %s>" % (self.path,)
 
+    def __str__(self):
+        if self.exists:
+            return "%s is exists\n--\n%s" % (self.path, self.run_test("ls -ld %s", self.path).stdout)
+        else:
+            return "%s is not exists\n--\n%s" % (self.path, self.run_test("ls -l $(dirname %s)", self.path).stdout)
+
     def __eq__(self, other):
         if isinstance(other, File):
             return self.path == other.path

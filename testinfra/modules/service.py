@@ -86,6 +86,9 @@ class Service(Module):
     def __repr__(self):
         return "<service %s>" % (self.name,)
 
+    def __str__(self):
+        return "<service %s, is_running: %s, is_enabled: %s>" % (self.name, self.is_running, self.is_enabled)
+
 
 class SysvService(Service):
 

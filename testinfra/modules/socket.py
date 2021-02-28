@@ -184,6 +184,14 @@ class Socket(Module):
             self.port,
         )
 
+    def __str__(self):
+        return "<socket %s://%s%s>\n--\n%s" % (
+            self.protocol,
+            self.host + ":" if self.host else "",
+            self.port,
+            self.get_listening_sockets(),
+        )
+
     @classmethod
     def get_module_class(cls, host):
         if host.system_info.type == "linux":

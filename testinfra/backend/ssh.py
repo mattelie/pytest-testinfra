@@ -75,6 +75,7 @@ class SshBackend(base.BaseBackend):
             # ssh exits with the exit status of the remote command or with 255
             # if an error occurred.
             raise RuntimeError(out)
+
         return out
 
 

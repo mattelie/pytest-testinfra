@@ -35,3 +35,6 @@ class Sysctl(InstanceModule):
 
     def __repr__(self):
         return "<sysctl>"
+
+    def __str__(self, name):
+        return "<sysctl> param: %s, value: %s" % (self._sysctl_command, self.check_output("%s -n %s", self._sysctl_command, name))
