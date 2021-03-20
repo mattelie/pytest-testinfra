@@ -38,6 +38,11 @@ modules = {
     'system_info': 'systeminfo:SystemInfo',
     'user': 'user:User',
     'block_device': 'blockdevice:BlockDevice',
+    'mysql_user': 'mysqluser:MySQLUser',
+    'mysql_plugin': 'mysqlplugin:MySQLPlugin',
+    'mysql_component': 'mysqlcomponent:MySQLComponent',
+    'mysql_replication': 'mysqlreplication:MySQLReplication',
+    'mysql_loginpath': 'mysqlloginpath:MySQLLoginPath',
 }
 
 
