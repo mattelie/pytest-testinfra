@@ -29,7 +29,7 @@ class MySQLReplication(Module):
 
     @property
     def master_port(self):
-        return self._show_slave_status("Master_Port")
+        return int(self._show_slave_status("Master_Port"))
 
     @property
     def master_host(self):
@@ -57,7 +57,7 @@ class MySQLReplication(Module):
 
     @property
     def sql_delay(self):
-        return self._show_slave_status("SQL_Delay")
+        return int(self._show_slave_status("SQL_Delay"))
 
     @property
     def ssl_allowed(self):
@@ -77,8 +77,8 @@ class MySQLReplication(Module):
 
     @property
     def retrycount(self):
-        return self._show_slave_status("Master_Retry_Count")
+        return int(self._show_slave_status("Master_Retry_Count"))
 
     @property
     def heartbeat(self):
-        return self.check_output(self.mysqlcomm + " -N -e 'select Heartbeat from mysql.slave_master_info where Channel_name = \"%s\"'", self.channel)
+        return int(self.check_output(self.mysqlcomm + " -N -e 'select Heartbeat from mysql.slave_master_info where Channel_name = \"%s\"'", self.channel))
